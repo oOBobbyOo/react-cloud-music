@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useMemo, useRef, useState, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
 import BScroll from 'better-scroll'
 import { debounce } from '@/utils'
@@ -84,6 +84,20 @@ const Scroll = forwardRef((props, ref) => {
       bScroll.refresh()
     }
   })
+
+  useImperativeHandle(ref, () => ({
+    refresh() {
+      if (bScroll) {
+        bScroll.refresh()
+        bScroll.scrollTo(0, 0)
+      }
+    },
+    getBScroll() {
+      if (bScroll) {
+        return bScroll
+      }
+    },
+  }))
 
   const PullUpdisplayStyle = pullUpLoading ? { display: '' } : { display: 'none' }
   const PullDowndisplayStyle = pullDownLoading ? { display: '' } : { display: 'none' }
