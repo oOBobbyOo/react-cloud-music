@@ -8,9 +8,13 @@ const HomeLayout = (props) => {
   return (
     <>
       <Top>
-        <span className='iconfont menu'>&#xe65c;</span>
+        <span className='iconfont menu' onClick={() => alert('用户中心正在开发中，敬请期待:)')}>
+          &#xe65c;
+        </span>
         <span className='title'>云音悦</span>
-        <span className='iconfont search'>&#xe62b;</span>
+        <span className='iconfont search' onClick={() => props.history.push('/search')}>
+          &#xe62b;
+        </span>
       </Top>
       <Tab>
         <NavLink to='/recommend' activeClassName='selected'>
