@@ -12,7 +12,8 @@ const SuspenseComponent = (Component) => (props) => {
   )
 }
 
-const RecommendComponent = lazy(() => import('../application/Recommend/'))
+const RecommendComponent = lazy(() => import('../application/Recommend'))
+const AlbumComponent = lazy(() => import('../application/Album'))
 const SingersComponent = lazy(() => import('../application/Singers'))
 const RankComponent = lazy(() => import('../application/Rank'))
 
@@ -32,6 +33,12 @@ const routes = [
           {
             path: '/recommend',
             component: SuspenseComponent(RecommendComponent),
+            routes: [
+              {
+                path: '/recommend/:id',
+                component: SuspenseComponent(AlbumComponent),
+              },
+            ],
           },
           {
             path: '/singers',
