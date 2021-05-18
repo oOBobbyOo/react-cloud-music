@@ -6,10 +6,12 @@ import * as actionCreators from '@/store/recommon/actionCreators'
 import Scroll from '@c/scroll'
 import Slider from '@c/slider'
 import RecommendList from '@c/list'
+import Loading from '@c/loading'
 import { Content } from './style'
+import { EnterLoading } from './../Singers/style'
 
 function Recommend(props) {
-  const { bannerList, recommendList } = props
+  const { bannerList, recommendList, enterLoading } = props
   const { getBannerDataDispatch, getRecommendListDataDispatch } = props
 
   useEffect(() => {
@@ -33,6 +35,11 @@ function Recommend(props) {
           <RecommendList recommendList={recommendListJS}></RecommendList>
         </div>
       </Scroll>
+      {enterLoading ? (
+        <EnterLoading>
+          <Loading></Loading>
+        </EnterLoading>
+      ) : null}
       {renderRoutes(props.route.routes)}
     </Content>
   )
