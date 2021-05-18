@@ -14,6 +14,7 @@ const SuspenseComponent = (Component) => (props) => {
 
 const RecommendComponent = lazy(() => import('../application/Recommend/'))
 const SingersComponent = lazy(() => import('../application/Singers'))
+const RankComponent = lazy(() => import('../application/Rank'))
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
             path: '/singers',
             component: SuspenseComponent(SingersComponent),
             key: 'singers',
+          },
+          {
+            path: '/rank/',
+            component: SuspenseComponent(RankComponent),
+            key: 'rank',
           },
         ],
       },
