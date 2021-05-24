@@ -5,6 +5,7 @@ import NormalPlayer from './normal-player'
 import { isEmptyObject, shuffle, findIndex, getSongUrl } from '@/utils'
 import { getLyricRequest } from '@/api'
 import Lyric from '@/api/lyric-parser'
+import { playMode } from '@/api/config'
 
 import {
   changePlayingState,
@@ -44,6 +45,8 @@ function Player(props) {
 
   const [preSong, setPreSong] = useState({})
 
+  const audioRef = useRef()
+
   const currentLyric = useRef()
   const currentLineNum = useRef(0)
   const songReady = useRef(true)
@@ -55,9 +58,9 @@ function Player(props) {
     changeCurrentDispatch(current)
     setPreSong(current)
     setPlayingLyric('')
-    // audioRef.current.src = getSongUrl(current.id)
-    // audioRef.current.autoplay = true
-    // audioRef.current.playbackRate = speed
+    audioRef.current.src = getSongUrl(current.id)
+    audioRef.current.autoplay = true
+    audioRef.current.playbackRate = speed
     togglePlayingDispatch(true)
     getLyric(current.id)
     setCurrentTime(0)
@@ -66,7 +69,7 @@ function Player(props) {
   }, [currentIndex, playList])
 
   useEffect(() => {
-    // playing ? audioRef.current.play() : audioRef.current.pause()
+    playing ? audioRef.current.play() : audioRef.current.pause()
   }, [playing])
 
   useEffect(() => {
@@ -109,7 +112,7 @@ function Player(props) {
       .catch(() => {
         currentLyric.current = ''
         songReady.current = true
-        // audioRef.current.play()
+        audioRef.current.play()
       })
   }
 
@@ -124,7 +127,7 @@ function Player(props) {
   const onProgressChange = (curPercent) => {
     const newTime = curPercent * duration
     setCurrentTime(newTime)
-    // audioRef.current.currentTime = newTime
+    audioRef.current.currentTime = newTime
     if (!playing) {
       togglePlayingDispatch(true)
     }
@@ -134,9 +137,9 @@ function Player(props) {
   }
 
   const handleLoop = () => {
-    // audioRef.current.currentTime = 0
+    audioRef.current.currentTime = 0
     togglePlayingDispatch(true)
-    // audioRef.current.play()
+    audioRef.current.play()
     if (currentLyric.current) {
       currentLyric.current.seek(0)
     }
@@ -190,9 +193,27 @@ function Player(props) {
 
   const clickSpeed = (newSpeed) => {
     changeSpeedDispatch(newSpeed)
-    // audioRef.current.playbackRate = newSpeed
+    audioRef.current.playbackRate = newSpeed
     currentLyric.current.changeSpeed(newSpeed)
     currentLyric.current.seek(currentTime * 1000)
+  }
+
+  const updateTime = (e) => {
+    setCurrentTime(e.target.currentTime)
+  }
+
+  const handleEnd = () => {
+    if (mode === playMode.loop) {
+      handleLoop()
+    } else {
+      handleNext()
+    }
+  }
+
+  const handleError = () => {
+    songReady.current = true
+    handleNext()
+    alert('播放出错')
   }
 
   return (
@@ -233,6 +254,8 @@ function Player(props) {
           togglePlayList={togglePlayListDispatch}
         ></MiniPlayer>
       )}
+
+      <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={handleEnd} onError={handleError}></audio>
     </>
   )
 }
