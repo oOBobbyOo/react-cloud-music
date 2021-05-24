@@ -2,6 +2,7 @@ import React, { memo, useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import MiniPlayer from './mini-player'
 import NormalPlayer from './normal-player'
+import PlayList from './play-list'
 import Toast from '@c/toast'
 import { isEmptyObject, shuffle, findIndex, getSongUrl } from '@/utils'
 import { getLyricRequest } from '@/api'
@@ -256,6 +257,8 @@ function Player(props) {
           togglePlayList={togglePlayListDispatch}
         ></MiniPlayer>
       )}
+
+      <PlayList clearPreSong={setPreSong.bind(null, {})}></PlayList>
 
       <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={handleEnd} onError={handleError}></audio>
 
