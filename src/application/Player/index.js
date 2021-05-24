@@ -2,6 +2,7 @@ import React, { memo, useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import MiniPlayer from './mini-player'
 import NormalPlayer from './normal-player'
+import Toast from '@c/toast'
 import { isEmptyObject, shuffle, findIndex, getSongUrl } from '@/utils'
 import { getLyricRequest } from '@/api'
 import Lyric from '@/api/lyric-parser'
@@ -46,6 +47,7 @@ function Player(props) {
   const [preSong, setPreSong] = useState({})
 
   const audioRef = useRef()
+  const toastRef = useRef()
 
   const currentLyric = useRef()
   const currentLineNum = useRef(0)
@@ -188,7 +190,7 @@ function Player(props) {
       setModeText('随机播放')
     }
     changeModeDispatch(newMode)
-    // toastRef.current.show()
+    toastRef.current.show()
   }
 
   const clickSpeed = (newSpeed) => {
@@ -256,6 +258,8 @@ function Player(props) {
       )}
 
       <audio ref={audioRef} onTimeUpdate={updateTime} onEnded={handleEnd} onError={handleError}></audio>
+
+      <Toast text={modeText} ref={toastRef}></Toast>
     </>
   )
 }
