@@ -4,10 +4,10 @@ import style from '@a/style/common'
 
 const loading = keyframes`
   0, 100% {
-    transform: scale(100%)
+    transform: scale(1)
   }
   50% {
-    transform: scale(50%)
+    transform: scale(0.5)
   }
 `
 
