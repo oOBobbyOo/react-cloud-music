@@ -5,6 +5,7 @@ import Header from '@c/header'
 import AlbumDetail from '@c/album-detail'
 import Scroll from '@c/scroll'
 import Loading from '@c/loading'
+import MusicNote from '@c/music-note'
 import { getAlbumList, changePullUpLoading, changeEnterLoading } from '@/store/album/actionCreators'
 import { isEmptyObject } from '@/utils'
 import { HEADER_HEIGHT } from '@/api/config'
@@ -20,7 +21,7 @@ function Album(props) {
   const musicNoteRef = useRef()
   const headerEl = useRef()
 
-  const { currentAlbum, enterLoading, pullUpLoading } = props
+  const { currentAlbum, enterLoading, pullUpLoading, songsCount } = props
   const { getAlbumDataDispatch, changePullUpLoadingStateDispatch } = props
   let currentAlbumJS = currentAlbum.toJS()
 
@@ -65,7 +66,7 @@ function Album(props) {
 
   return (
     <CSSTransition in={showStatus} timeout={300} classNames='fly' appear={true} unmountOnExit onExited={props.history.goBack}>
-      <Container>
+      <Container play={songsCount}>
         <Header ref={headerEl} title={title} handleClick={handleBack} isMarquee={isMarquee}></Header>
         {!isEmptyObject(currentAlbumJS) ? (
           <Scroll onScroll={handleScroll} pullUp={handlePullUp} pullUpLoading={pullUpLoading} bounceTop={false}>
@@ -77,6 +78,7 @@ function Album(props) {
             <Loading></Loading>
           </EnterLoading>
         ) : null}
+        <MusicNote ref={musicNoteRef}></MusicNote>
       </Container>
     </CSSTransition>
   )
@@ -88,6 +90,7 @@ const mapStateToProps = (state) => ({
   enterLoading: state.getIn(['album', 'enterLoading']),
   startIndex: state.getIn(['album', 'startIndex']),
   totalCount: state.getIn(['album', 'totalCount']),
+  songsCount: state.getIn(['player', 'playList']).size,
 })
 
 const mapDispatchToProps = (dispatch) => ({

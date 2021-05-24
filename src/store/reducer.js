@@ -5,6 +5,7 @@ import { reducer as rankReducer } from './rank'
 import { reducer as albumReducer } from './album'
 import { reducer as singerInfoReducer } from './singer'
 import { reducer as searchReducer } from './search'
+import { reducer as playerReducer } from './player'
 
 const rootReducer = combineReducers({
   recommon: recommonReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   album: albumReducer,
   singerInfo: singerInfoReducer,
   search: searchReducer,
+  player: playerReducer,
 })
 
 export default rootReducer

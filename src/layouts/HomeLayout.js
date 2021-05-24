@@ -2,6 +2,7 @@ import { memo } from 'react'
 import { renderRoutes } from 'react-router-config'
 import { NavLink } from 'react-router-dom'
 import { Top, Tab, TabItem } from './HomeLayout.style'
+import Player from '@/application/Player'
 
 const HomeLayout = (props) => {
   const { route } = props
@@ -34,6 +35,7 @@ const HomeLayout = (props) => {
         </NavLink>
       </Tab>
       {renderRoutes(route.routes)}
+      <Player></Player>
     </>
   )
 }

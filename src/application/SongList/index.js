@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { getName } from '@/utils'
 import { ONE_PAGE_COUNT } from '@/api/config'
 import { SongList, SongItem } from './style'
+import { changePlayList, changeCurrentIndex, changeSequecePlayList } from '@/store/player/actionCreators'
 
 const SongsList = forwardRef((props, refs) => {
   const [startIndex, setStartIndex] = useState(0)
@@ -84,9 +85,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  changePlayListDispatch: () => ({}),
-  changeCurrentIndexDispatch: () => ({}),
-  changeSequecePlayListDispatch: () => ({}),
+  changePlayListDispatch: (data) => dispatch(changePlayList(data)),
+  changeCurrentIndexDispatch: (data) => dispatch(changeCurrentIndex(data)),
+  changeSequecePlayListDispatch: (data) => dispatch(changeSequecePlayList(data)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(memo(SongsList))
